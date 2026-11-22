@@ -485,7 +485,7 @@ export class CardManager {
       });
   }
 
-  /** Raw frontmatter value of the `parent` property of the card at `path`. */
+  /** Raw frontmatter value of the `kanbase_parent` property at `path`. */
   private getParentRaw(path: string): unknown {
     if (!path) return null;
     const file = this.view.app.vault.getAbstractFileByPath(path);

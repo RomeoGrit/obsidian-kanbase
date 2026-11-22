@@ -1,7 +1,8 @@
 import type { App } from "obsidian";
 
 /**
- * Build the wikilink stored in a child card's `parent` frontmatter property,
+ * Build the wikilink stored in a child card's `kanbase_parent` frontmatter
+ * property,
  * e.g. "Tasks/IV work.md" → "[[Tasks/IV work]]".
  */
 export function makeParentLink(parentPath: string): string {
@@ -9,8 +10,8 @@ export function makeParentLink(parentPath: string): string {
 }
 
 /**
- * Read the raw frontmatter value of the `parent` property and return the link
- * target it points at (a path or a linktext). Accepts plain strings as well as
+ * Read the raw frontmatter value of the `kanbase_parent` property and return
+ * the link target it points at (a path or a linktext). Accepts plain strings as well as
  * wikilinks with or without an alias, and the first usable entry of a list.
  */
 export function readParentTarget(raw: unknown): string | null {
@@ -27,7 +28,7 @@ export function readParentTarget(raw: unknown): string | null {
   return target === "" ? null : target;
 }
 
-/** Resolve a card's `parent` property to an absolute vault path, if any. */
+/** Resolve a card's `kanbase_parent` property to an absolute vault path. */
 export function resolveParentPath(
   app: App,
   sourcePath: string,

@@ -31,7 +31,7 @@ export class CardCreationManager {
 
   /**
    * Create a child card of `parentFile`: same column and same tags as the
-   * parent, plus a `parent` link back to it. The swimlane row (e.g. a
+   * parent, plus a `kanbase_parent` link back to it. The swimlane row (e.g. a
    * "weight" property) is deliberately not inherited — children are small
    * tasks and belong in the board's "no value" row.
    */
@@ -124,9 +124,9 @@ export class CardCreationManager {
         columnName,
       );
       if (parentFile) {
-        // Child card: link back to the parent and inherit its tags (the
-        // teacher tag), but not the swimlane row — children stay in the
-        // board's "no value" row instead of the parent's.
+        // Child card: link back to the parent and inherit its tags, but not
+        // the swimlane row — children stay in the board's "no value" row
+        // instead of the parent's.
         frontmatter[PARENT_PROPERTY] = makeParentLink(parentFile.path);
         const parentTags = this.view.tags.extractTagsFromFile(parentFile);
         if (parentTags.length > 0) {
