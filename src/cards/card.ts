@@ -21,6 +21,7 @@ import {
   sanitizeFilename,
 } from "../support/constants";
 import { getParentDisplayName, resolveParentPath } from "./card-hierarchy";
+import { convertNoteToCanvas, openOrCreateCanvas } from "./card-canvas";
 import { relativeLuminance } from "../support/color-utils";
 
 const IMAGE_EXTENSIONS = new Set([
@@ -255,6 +256,18 @@ export class CardManager {
               ),
             );
         });
+        menu.addItem((item) => {
+          item
+            .setTitle("Open canvas")
+            .setIcon("lucide-workflow")
+            .onClick(() => void openOrCreateCanvas(this.view.app, file));
+        });
+        menu.addItem((item) => {
+          item
+            .setTitle("Convert to canvas")
+            .setIcon("lucide-file-output")
+            .onClick(() => void convertNoteToCanvas(this.view.app, file));
+        });
         this.addMoveToEdgeItems(menu, filePath);
         menu.showAtMouseEvent(e);
       });
@@ -307,6 +320,18 @@ export class CardManager {
     editBtn.addEventListener("click", (e: MouseEvent) => {
       e.stopPropagation(); // Don't open the note
       this.showCardActionMenu(editBtn, filePath, titleEl);
+    });
+
+    // ---- Canvas button (visible on hover) — the task's mindmap ----
+    const canvasBtn = cardEl.createDiv({ cls: "kanbase-card-canvas-btn" });
+    canvasBtn.setAttribute("aria-label", "Open canvas");
+    setIcon(canvasBtn, "lucide-workflow");
+    canvasBtn.addEventListener("click", (e: MouseEvent) => {
+      e.stopPropagation(); // Don't open the note
+      const target = this.view.app.vault.getAbstractFileByPath(filePath);
+      if (target instanceof TFile) {
+        void openOrCreateCanvas(this.view.app, target);
+      }
     });
 
     // ---- Property chips ----
@@ -658,6 +683,13 @@ export class CardManager {
         .onClick(() => {
           this.view.navigation.openInNewTab(file);
         });
+    });
+
+    menu.addItem((item) => {
+      item
+        .setTitle("Open canvas")
+        .setIcon("lucide-workflow")
+        .onClick(() => void openOrCreateCanvas(this.view.app, file));
     });
 
     menu.addSeparator();

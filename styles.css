@@ -662,7 +662,7 @@
   font-weight: var(--font-medium);
   line-height: 1.35;
   margin-bottom: 4px;
-  padding-right: 24px; /* leave room for the edit button */
+  padding-right: 64px; /* leave room for the canvas and edit buttons */
 }
 
 /* ---- Parent indicator (child cards) ---- */
@@ -727,6 +727,40 @@
 }
 
 .kanbase-card-edit-btn:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+/* ---- Card canvas button ---- */
+
+.kanbase-card-canvas-btn {
+  position: absolute;
+  top: 8px;
+  right: 36px; /* immediately left of the edit button */
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease;
+  color: var(--text-muted);
+}
+
+.kanbase-card-canvas-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.kanbase-card:hover .kanbase-card-canvas-btn {
+  opacity: 1;
+}
+
+.kanbase-card-canvas-btn:hover {
   background-color: var(--background-modifier-hover);
   color: var(--text-normal);
 }
@@ -1518,6 +1552,8 @@
 /* ---- Mobile-specific style overrides ---- */
 
 .is-phone .kanbase-card-edit-btn,
-.is-tablet .kanbase-card-edit-btn {
+.is-tablet .kanbase-card-edit-btn,
+.is-phone .kanbase-card-canvas-btn,
+.is-tablet .kanbase-card-canvas-btn {
   opacity: 0.6;
 }
